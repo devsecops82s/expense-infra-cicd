@@ -5,10 +5,10 @@ pipeline {
         COMPONENT = 'backend'
         DEPLOY_TO = 'production'
     }
-
-    options{
-        timeout(time:10, units: 'minutes')
+    options {
         disableConcurrentBuilds()
+        timeout(time: 30, unit: 'MINUTES')
+    }
         
 
     }
