@@ -7,7 +7,7 @@ terraform {
   }
   backend "s3" {
     bucket = "expense-infra-remote-state"
-    key    = "vpc-test"
+    key    = "vpc-jenkins"
     region = "us-east-1"
     dynamodb_table = "expense-state-locking"
   }
