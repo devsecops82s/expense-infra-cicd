@@ -60,7 +60,7 @@ pipeline {
 
         
     }   
-}    
+   
         
     post {
         always {
@@ -74,5 +74,5 @@ pipeline {
             echo "this section run when pipeline failure"
         }
     }
-
+}
 
