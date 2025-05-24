@@ -22,7 +22,7 @@ pipeline {
         stage('init') {
             steps {
                 script{
-                     withAWS(region: 'us-east-1', credentials: 'aws-creds'){
+                     withAWS(region: 'us-east-1', credentials: 'aws-devcreds'){
                         sh """
                         cd 10-sg
                         terraform init -reconfigure
@@ -45,7 +45,7 @@ pipeline {
             }
             steps{
                 script{
-                    withAWS(region: 'us-east-1', credentials: 'aws-creds'){
+                    withAWS(region: 'us-east-1', credentials: 'aws-devcreds'){
                         sh """
                             cd 10-sg
                             terraform apply -auto-approve
