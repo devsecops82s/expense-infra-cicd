@@ -11,17 +11,13 @@ pipeline {
         ansiColor('xterm')
     }
 
-    // parameters {
-    //     string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+    parameters {
+        
 
-    //     text(name: 'BIOGRAPHY', defaultValue: '', description: 'Enter some information about the person')
+        choice(name: 'ACTION', choices: ['apply', 'destroy'], description: 'Pick something')
 
-    //     booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value')
-
-    //     choice(name: 'CHOICE', choices: ['One', 'Two', 'Three'], description: 'Pick something')
-
-    //     password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
-    // }
+        
+    }
 
     stages {
         stage('init') {
@@ -51,16 +47,22 @@ pipeline {
             steps{
                 script{
                     withAWS(region: 'us-east-1', credentials: 'aws-creds'){
-                    sh """
-                        cd 00-vpc
-                        terraform apply -auto-approve
-                        terraform destroy -auto-approve
-                    """
+                        sh """
+                            cd 00-vpc
+                            terraform apply -auto-approve
+                        
+                        """
+                    }
                 }
                 
             }
         }
-        
+        stage('Trigger SG'){
+            when {
+                expression { params.ACTION == 'apply'}
+                build job: '10-sg', parameters[(name: 'ACTION' , value: 'apply')], propagate: true
+            }
+        }
     }   
 }    
         
